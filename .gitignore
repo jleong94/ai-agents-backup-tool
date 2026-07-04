@@ -1,0 +1,22 @@
+# Backups produced by this tool — may contain credentials / session data.
+# Never commit these.
+AI_Agents_Backup/
+backup_*/
+*.pre-restore-*
+manifest.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/

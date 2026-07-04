@@ -1,0 +1,14 @@
+# Normalize line endings so the launchers work on every OS.
+* text=auto
+
+# Shell scripts MUST be LF, or the shebang breaks on Linux/macOS.
+*.sh  text eol=lf
+
+# Python: LF everywhere (valid on all platforms).
+*.py  text eol=lf
+
+# Windows batch scripts: CRLF.
+*.bat text eol=crlf
+
+# Docs / config
+*.md  text
