@@ -7,8 +7,9 @@ Move your **Claude Code**, **Hermes Agent**, and **OpenClaw** data — sessions,
 ```
 ai-agents-backup-tool/
 ├── backup_transfer_tool.py   # the tool (Python, standard library only)
-├── run.bat                   # Windows launcher
+├── run.bat                   # Windows launcher (double-click)
 ├── run.sh                    # Linux / macOS launcher
+├── run.command               # macOS launcher (Finder double-click)
 └── README.md
 ```
 
@@ -22,7 +23,7 @@ Moving to a new PC risks losing the data these AI agents keep locally: chat sess
 ### What it backs up
 - **Claude Code** — `~/.claude` (sessions, memory, tasks, plugins, credentials) and `~/.claude.json` (MCP servers + per-project config)
 - **Hermes Agent** — the `hermes` folder in local app data and `~/.hermes` (memories, sessions, skills, kanban, `state.db`, `config.yaml`, `.env`, `SOUL.md`, auth)
-- **OpenClaw** — best-effort paths (automatically skipped if not installed)
+- **OpenClaw** — `~/.openclaw` (config, agents, sessions, auth, workspace); `%APPDATA%\OpenClaw` on Windows. Skipped automatically if not installed.
 
 ### What it skips (large + auto-regenerated)
 - Hermes runtime/source (`hermes-agent`, ~2 GB) and `bin`
@@ -40,7 +41,8 @@ A full backup is typically well under 100 MB.
 
 ### Quick start
 - **Windows:** double-click **`run.bat`**
-- **macOS / Linux:** run `./run.sh` from a terminal
+- **macOS:** double-click **`run.command`** (or `./run.sh` in a terminal)
+- **Linux:** run `./run.sh` from a terminal
 - **Or run directly:** `python backup_transfer_tool.py`
 
 ### Commands
@@ -70,6 +72,7 @@ Quit Claude Code and Hermes first, so their live databases (`state.db`, `kanban.
 |-----|---------|-------|-------|
 | Claude Code | `~/.claude`, `~/.claude.json` | same | same |
 | Hermes Agent | `%LOCALAPPDATA%\hermes`, `~/.hermes` | `~/Library/Application Support/hermes`, `~/.hermes` | `~/.config/hermes`, `~/.hermes` |
+| OpenClaw | `%APPDATA%\OpenClaw` or `~/.openclaw` | `~/.openclaw` | `~/.openclaw` |
 
 ---
 
@@ -81,7 +84,7 @@ Bertukar ke PC baharu berisiko kehilangan data yang disimpan secara setempat ole
 ### Apa yang disandarkan
 - **Claude Code** — `~/.claude` (sesi, memori, tugasan, plugin, maklumat kelayakan) dan `~/.claude.json` (pelayan MCP + konfigurasi setiap projek)
 - **Hermes Agent** — folder `hermes` dalam data aplikasi setempat dan `~/.hermes` (memori, sesi, kemahiran, kanban, `state.db`, `config.yaml`, `.env`, `SOUL.md`, auth)
-- **OpenClaw** — laluan anggaran (dilangkau secara automatik jika tidak dipasang)
+- **OpenClaw** — `~/.openclaw` (konfigurasi, agen, sesi, auth, ruang kerja); `%APPDATA%\OpenClaw` pada Windows. Dilangkau automatik jika tidak dipasang.
 
 ### Apa yang dilangkau (besar + dijana semula automatik)
 - Runtime/sumber Hermes (`hermes-agent`, ~2 GB) dan `bin`
@@ -99,7 +102,8 @@ Sandaran penuh biasanya jauh di bawah 100 MB.
 
 ### Mula pantas
 - **Windows:** klik dua kali **`run.bat`**
-- **macOS / Linux:** jalankan `./run.sh` dari terminal
+- **macOS:** klik dua kali **`run.command`** (atau `./run.sh` dalam terminal)
+- **Linux:** jalankan `./run.sh` dari terminal
 - **Atau jalankan terus:** `python backup_transfer_tool.py`
 
 ### Arahan
@@ -129,6 +133,7 @@ Tutup Claude Code dan Hermes dahulu, supaya pangkalan data langsung mereka (`sta
 |----------|---------|-------|-------|
 | Claude Code | `~/.claude`, `~/.claude.json` | sama | sama |
 | Hermes Agent | `%LOCALAPPDATA%\hermes`, `~/.hermes` | `~/Library/Application Support/hermes`, `~/.hermes` | `~/.config/hermes`, `~/.hermes` |
+| OpenClaw | `%APPDATA%\OpenClaw` atau `~/.openclaw` | `~/.openclaw` | `~/.openclaw` |
 
 ---
 
@@ -140,7 +145,7 @@ Tutup Claude Code dan Hermes dahulu, supaya pangkalan data langsung mereka (`sta
 ### 备份的内容
 - **Claude Code** — `~/.claude`（会话、记忆、任务、插件、凭据）和 `~/.claude.json`（MCP 服务器 + 各项目配置）
 - **Hermes Agent** — 本地应用数据中的 `hermes` 文件夹和 `~/.hermes`（记忆、会话、技能、看板、`state.db`、`config.yaml`、`.env`、`SOUL.md`、认证信息）
-- **OpenClaw** — 尽力猜测的路径（若未安装则自动跳过）
+- **OpenClaw** — `~/.openclaw`（配置、智能体、会话、认证、工作区）；Windows 上为 `%APPDATA%\OpenClaw`。未安装则自动跳过。
 
 ### 跳过的内容（体积大 + 自动重新生成）
 - Hermes 运行时/源码（`hermes-agent`，约 2 GB）和 `bin`
@@ -158,7 +163,8 @@ Tutup Claude Code dan Hermes dahulu, supaya pangkalan data langsung mereka (`sta
 
 ### 快速开始
 - **Windows：** 双击 **`run.bat`**
-- **macOS / Linux：** 在终端中运行 `./run.sh`
+- **macOS：** 双击 **`run.command`**（或在终端中运行 `./run.sh`）
+- **Linux：** 在终端中运行 `./run.sh`
 - **或直接运行：** `python backup_transfer_tool.py`
 
 ### 命令
@@ -188,3 +194,4 @@ python backup_transfer_tool.py restore [SRC_DIR] [--dry-run] [--yes]
 |------|---------|-------|-------|
 | Claude Code | `~/.claude`、`~/.claude.json` | 相同 | 相同 |
 | Hermes Agent | `%LOCALAPPDATA%\hermes`、`~/.hermes` | `~/Library/Application Support/hermes`、`~/.hermes` | `~/.config/hermes`、`~/.hermes` |
+| OpenClaw | `%APPDATA%\OpenClaw` 或 `~/.openclaw` | `~/.openclaw` | `~/.openclaw` |

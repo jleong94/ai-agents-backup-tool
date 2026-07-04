@@ -12,7 +12,8 @@ What it backs up (the stuff that is painful to lose)
                     ~/.claude.json  (MCP servers + per-project config)
     Hermes Agent  : <LocalAppData>/hermes and ~/.hermes
                     (memories, sessions, skills, kanban, state, SOUL.md, auth)
-    OpenClaw      : best-effort paths (not detected on this machine yet)
+    OpenClaw      : ~/.openclaw  (openclaw.json, agents, sessions, auth,
+                    workspace, hooks); %APPDATA%/OpenClaw on Windows
 
 What it deliberately SKIPS (large + regenerated automatically)
     - Hermes 'hermes-agent' local runtime / source repo (~2 GB) and 'bin'
@@ -73,6 +74,16 @@ HERMES_EXCLUDE = {
 }
 CLAUDE_EXCLUDE = set()   # ~/.claude is small (~25 MB) -> keep all of it.
 
+# OpenClaw keeps everything under ~/.openclaw (%APPDATA%/OpenClaw on Windows).
+# Skip the large, regenerable pieces. Based on docs.openclaw.ai; OpenClaw is not
+# installed on this machine, so confirm these once it is.
+OPENCLAW_EXCLUDE = {
+    "node_modules",      # dependency packages (reinstalled)
+    "runtime",           # downloaded model servers / binaries
+    "cache", "logs",     # response caches / diagnostic logs
+    "*.lock", "*.pid",
+}
+
 
 # --------------------------------------------------------------------------- #
 #  Location config
@@ -126,19 +137,18 @@ def get_agents():
             hermes_primary,
             ("home", ".hermes", HERMES_EXCLUDE),
         ],
-        # OpenClaw was not found on this machine. These are best-effort guesses;
-        # verify/adjust once it is installed.
-        "openclaw": [
-            ("home", ".openclaw", set()),
-        ],
+        # OpenClaw stores everything under ~/.openclaw (%APPDATA%/OpenClaw on
+        # Windows); OPENCLAW_HOME overrides it. Docs-based; not installed here.
+        "openclaw": [],  # populated below
     }
-    if system == "Windows":
-        agents["openclaw"] += [("localappdata", "OpenClaw", set()),
-                               ("appdata", "OpenClaw", set())]
-    elif system == "Darwin":
-        agents["openclaw"] += [("appsupport", "OpenClaw", set())]
+
+    openclaw_home = os.environ.get("OPENCLAW_HOME")
+    if openclaw_home:
+        agents["openclaw"] = [("absolute", openclaw_home, OPENCLAW_EXCLUDE)]
     else:
-        agents["openclaw"] += [("config", "OpenClaw", set())]
+        agents["openclaw"] = [("home", ".openclaw", OPENCLAW_EXCLUDE)]
+        if system == "Windows":
+            agents["openclaw"].append(("appdata", "OpenClaw", OPENCLAW_EXCLUDE))
     return agents
 
 
@@ -189,7 +199,10 @@ def make_ignore(root, patterns):
 
 def label_for(app, rel):
     """Filesystem-safe, unique-per-app folder name for a source inside a backup."""
-    safe = rel.replace(os.sep, "-").replace("/", "-")
+    safe = str(rel)
+    for ch in '/\\:*?"<>| ':      # strip path separators and Windows-illegal chars
+        safe = safe.replace(ch, "-")
+    safe = safe.strip("-") or "root"
     if safe.startswith("."):
         safe = "dot-" + safe[1:]
     return f"{app}__{safe}"

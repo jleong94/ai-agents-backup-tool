@@ -2,7 +2,8 @@
 * text=auto
 
 # Shell scripts MUST be LF, or the shebang breaks on Linux/macOS.
-*.sh  text eol=lf
+*.sh      text eol=lf
+*.command text eol=lf
 
 # Python: LF everywhere (valid on all platforms).
 *.py  text eol=lf
