@@ -1,6 +1,6 @@
 # AI Agents Backup & Transfer Tool
 
-Move your **Claude Code**, **Hermes Agent**, and **OpenClaw** data — sessions, memory, skills, and config — to a new computer without losing anything. Windows, macOS, and Linux.
+Move your **Claude Code**, **Codex** (OpenAI), **Hermes Agent**, and **OpenClaw** data — sessions, memory, skills, and config — to a new computer without losing anything. Windows, macOS, and Linux.
 
 **Languages:** [English](#english) · [Bahasa Melayu](#bahasa-melayu) · [简体中文](#简体中文)
 
@@ -24,6 +24,7 @@ Moving to a new PC risks losing the data these AI agents keep locally: chat sess
 - **Claude Code** — `~/.claude` (sessions, memory, tasks, plugins, credentials) and `~/.claude.json` (MCP servers + per-project config)
 - **Hermes Agent** — the `hermes` folder in local app data and `~/.hermes` (memories, sessions, skills, kanban, `state.db`, `config.yaml`, `.env`, `SOUL.md`, auth)
 - **OpenClaw** — `~/.openclaw` (config, agents, sessions, auth, workspace); `%APPDATA%\OpenClaw` on Windows. Skipped automatically if not installed.
+- **Codex (OpenAI)** — `~/.codex` (`config.toml`, `sessions/`, `history.jsonl`, `auth.json`, `AGENTS.md`); `CODEX_HOME` overrides. Skips `log/` and caches.
 
 ### What it skips (large + auto-regenerated)
 - Hermes runtime/source (`hermes-agent`, ~2 GB) and `bin`
@@ -73,6 +74,7 @@ Quit Claude Code and Hermes first, so their live databases (`state.db`, `kanban.
 | Claude Code | `~/.claude`, `~/.claude.json` | same | same |
 | Hermes Agent | `%LOCALAPPDATA%\hermes`, `~/.hermes` | `~/Library/Application Support/hermes`, `~/.hermes` | `~/.config/hermes`, `~/.hermes` |
 | OpenClaw | `%APPDATA%\OpenClaw` or `~/.openclaw` | `~/.openclaw` | `~/.openclaw` |
+| Codex (OpenAI) | `~/.codex` | `~/.codex` | `~/.codex` |
 
 ---
 
@@ -85,6 +87,7 @@ Bertukar ke PC baharu berisiko kehilangan data yang disimpan secara setempat ole
 - **Claude Code** — `~/.claude` (sesi, memori, tugasan, plugin, maklumat kelayakan) dan `~/.claude.json` (pelayan MCP + konfigurasi setiap projek)
 - **Hermes Agent** — folder `hermes` dalam data aplikasi setempat dan `~/.hermes` (memori, sesi, kemahiran, kanban, `state.db`, `config.yaml`, `.env`, `SOUL.md`, auth)
 - **OpenClaw** — `~/.openclaw` (konfigurasi, agen, sesi, auth, ruang kerja); `%APPDATA%\OpenClaw` pada Windows. Dilangkau automatik jika tidak dipasang.
+- **Codex (OpenAI)** — `~/.codex` (`config.toml`, `sessions/`, `history.jsonl`, `auth.json`, `AGENTS.md`); `CODEX_HOME` mengatasinya. Melangkau `log/` dan cache.
 
 ### Apa yang dilangkau (besar + dijana semula automatik)
 - Runtime/sumber Hermes (`hermes-agent`, ~2 GB) dan `bin`
@@ -134,6 +137,7 @@ Tutup Claude Code dan Hermes dahulu, supaya pangkalan data langsung mereka (`sta
 | Claude Code | `~/.claude`, `~/.claude.json` | sama | sama |
 | Hermes Agent | `%LOCALAPPDATA%\hermes`, `~/.hermes` | `~/Library/Application Support/hermes`, `~/.hermes` | `~/.config/hermes`, `~/.hermes` |
 | OpenClaw | `%APPDATA%\OpenClaw` atau `~/.openclaw` | `~/.openclaw` | `~/.openclaw` |
+| Codex (OpenAI) | `~/.codex` | `~/.codex` | `~/.codex` |
 
 ---
 
@@ -146,6 +150,7 @@ Tutup Claude Code dan Hermes dahulu, supaya pangkalan data langsung mereka (`sta
 - **Claude Code** — `~/.claude`（会话、记忆、任务、插件、凭据）和 `~/.claude.json`（MCP 服务器 + 各项目配置）
 - **Hermes Agent** — 本地应用数据中的 `hermes` 文件夹和 `~/.hermes`（记忆、会话、技能、看板、`state.db`、`config.yaml`、`.env`、`SOUL.md`、认证信息）
 - **OpenClaw** — `~/.openclaw`（配置、智能体、会话、认证、工作区）；Windows 上为 `%APPDATA%\OpenClaw`。未安装则自动跳过。
+- **Codex（OpenAI）** — `~/.codex`（`config.toml`、`sessions/`、`history.jsonl`、`auth.json`、`AGENTS.md`）；可用 `CODEX_HOME` 覆盖。跳过 `log/` 和缓存。
 
 ### 跳过的内容（体积大 + 自动重新生成）
 - Hermes 运行时/源码（`hermes-agent`，约 2 GB）和 `bin`
@@ -195,3 +200,4 @@ python backup_transfer_tool.py restore [SRC_DIR] [--dry-run] [--yes]
 | Claude Code | `~/.claude`、`~/.claude.json` | 相同 | 相同 |
 | Hermes Agent | `%LOCALAPPDATA%\hermes`、`~/.hermes` | `~/Library/Application Support/hermes`、`~/.hermes` | `~/.config/hermes`、`~/.hermes` |
 | OpenClaw | `%APPDATA%\OpenClaw` 或 `~/.openclaw` | `~/.openclaw` | `~/.openclaw` |
+| Codex（OpenAI） | `~/.codex` | `~/.codex` | `~/.codex` |

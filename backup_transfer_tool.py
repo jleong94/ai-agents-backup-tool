@@ -4,8 +4,8 @@ AI Agents Backup & Transfer Tool
 ================================
 
 Purpose
-    Move your important Claude Code / Hermes Agent / OpenClaw data to a NEW PC
-    without losing sessions, memory, skills, or config.
+    Move your important Claude Code / Codex / Hermes Agent / OpenClaw data to a
+    NEW PC without losing sessions, memory, skills, or config.
 
 What it backs up (the stuff that is painful to lose)
     Claude Code   : ~/.claude  (sessions, memory, tasks, plugins, credentials)
@@ -14,6 +14,8 @@ What it backs up (the stuff that is painful to lose)
                     (memories, sessions, skills, kanban, state, SOUL.md, auth)
     OpenClaw      : ~/.openclaw  (openclaw.json, agents, sessions, auth,
                     workspace, hooks); %APPDATA%/OpenClaw on Windows
+    Codex (OpenAI): ~/.codex  (config.toml, sessions, history.jsonl, auth.json,
+                    AGENTS.md); CODEX_HOME overrides. Skips log/ and caches.
 
 What it deliberately SKIPS (large + regenerated automatically)
     - Hermes 'hermes-agent' local runtime / source repo (~2 GB) and 'bin'
@@ -84,6 +86,13 @@ OPENCLAW_EXCLUDE = {
     "*.lock", "*.pid",
 }
 
+# OpenAI Codex CLI keeps everything under ~/.codex (small: config + sessions +
+# history + auth). Skip only logs/caches. Based on developers.openai.com/codex.
+CODEX_EXCLUDE = {
+    "log", "cache",
+    "*.log",
+}
+
 
 # --------------------------------------------------------------------------- #
 #  Location config
@@ -149,6 +158,14 @@ def get_agents():
         agents["openclaw"] = [("home", ".openclaw", OPENCLAW_EXCLUDE)]
         if system == "Windows":
             agents["openclaw"].append(("appdata", "OpenClaw", OPENCLAW_EXCLUDE))
+
+    # OpenAI Codex CLI (ChatGPT): config, sessions, history, and auth all under
+    # ~/.codex on every OS (%USERPROFILE%\.codex on Windows); CODEX_HOME overrides.
+    codex_home = os.environ.get("CODEX_HOME")
+    if codex_home:
+        agents["codex"] = [("absolute", codex_home, CODEX_EXCLUDE)]
+    else:
+        agents["codex"] = [("home", ".codex", CODEX_EXCLUDE)]
     return agents
 
 
